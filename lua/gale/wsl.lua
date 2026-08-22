@@ -1,4 +1,4 @@
-if not vim.fn.has "wsl" then
+if vim.fn.has("wsl") == 0 then
   return
 end
 

@@ -11,7 +11,6 @@ local custom = {
   },
   opt = {
     encoding = "utf-8",
-    fileencoding = "utf-8",
     -- Folds
     foldenable = true,
     foldmethod = "expr",
@@ -54,7 +53,6 @@ local custom = {
     inccommand = "split",
     ignorecase = true,
     updatetime = 100,
-    lazyredraw = false,
   },
 }
 
@@ -64,5 +62,6 @@ for i, opts in pairs(custom) do
   end
 end
 
+vim.opt_global.fileencoding = "utf-8"
 vim.opt.iskeyword:append { "_", "@", ".", "-" }
 vim.opt.path:append { "**", "lua", "src" }

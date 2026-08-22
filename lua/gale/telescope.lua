@@ -11,6 +11,39 @@ local utils = require "telescope.utils"
 -- local icon_width = strings.strdisplaywidth(devicons.get_icon("fname", { default = true }))
 local icon_width = 2 -- offers the best results
 
+local get_fd_command = function(options)
+  local fd = vim.fn.executable "fd" == 1 and "fd" or vim.fn.executable "fdfind" == 1 and "fdfind" or nil
+
+  if not fd then
+    return nil
+  end
+
+  local command = {
+    fd,
+    "--type",
+    "f",
+    "--strip-cwd-prefix",
+    "--color",
+    "never",
+    "--exclude",
+    ".git",
+  }
+
+  if options.hidden then
+    table.insert(command, "--hidden")
+  end
+
+  if options.follow then
+    table.insert(command, "--follow")
+  end
+
+  if options.no_ignore then
+    table.insert(command, "--no-ignore")
+  end
+
+  return command
+end
+
 local get_path_and_tail = function(file_name)
   local tail = utils.path_tail(file_name)
   local truncated_path = strings.truncate(file_name, #file_name - #tail, "")
@@ -67,6 +100,11 @@ local files = function(filetype, opts)
   end
 
   local options = picker_data.options or {}
+
+  if picker_data.picker == "find_files" and not options.find_command then
+    options.find_command = get_fd_command(options)
+  end
+
   local base_entry_maker = make_entry.gen_from_file(options)
 
   options.entry_maker = function(line)

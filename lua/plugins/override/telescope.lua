@@ -1,6 +1,12 @@
 ---@type NvPluginSpec
 return {
   "nvim-telescope/telescope.nvim",
+  dependencies = {
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+    },
+  },
   opts = function(_, opts)
     local map = vim.keymap.set
     local pickers = require("gale.telescope").pickers
@@ -52,10 +58,14 @@ return {
 
     map("n", "<leader>fw", function()
       pickers.grep("live_grep", nil, nil, {
+        preview = {
+          hide_on_startup = false,
+        },
         layout_config = {
           vertical = {
             width = SIZES.WIDTH,
             height = SIZES.HEIGHT,
+            preview_height = 0.5,
           },
         },
         prompt_title = "Live Grep",
@@ -88,6 +98,18 @@ return {
 
     opts = vim.tbl_deep_extend("force", opts, {
       defaults = {
+        vimgrep_arguments = {
+          "rg",
+          "--color=never",
+          "--no-heading",
+          "--with-filename",
+          "--line-number",
+          "--column",
+          "--smart-case",
+          "--hidden",
+          "--glob",
+          "!**/.git/*",
+        },
         preview = {
           hide_on_startup = true,
         },
@@ -115,6 +137,14 @@ return {
           },
         },
       },
+      extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "smart_case",
+        },
+      },
       pickers = {
         builtin = {
           prompt_title = "Builtin Pickers",
@@ -123,5 +153,9 @@ return {
     })
 
     return opts
+  end,
+  config = function(_, opts)
+    require("telescope").setup(opts)
+    pcall(require("telescope").load_extension, "fzf")
   end,
 }

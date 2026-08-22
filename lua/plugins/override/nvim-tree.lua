@@ -116,7 +116,11 @@ return {
       },
       on_attach = custom_on_attach,
       sync_root_with_cwd = true,
-      filters = { custom = { "^.git$" } },
+      filters = {
+        git_ignored = false,
+        dotfiles = false,
+        custom = { "^.git$" },
+      },
       git = { enable = true },
       renderer = {
         highlight_git = "none",

@@ -7,7 +7,6 @@ return {
   { import = "plugins.spec.better-escape" },
   { import = "plugins.spec.ccc" },
   { import = "plugins.spec.cd-project" },
-  { import = "plugins.spec.cloak" },
   { import = "plugins.spec.comment" },
   { import = "plugins.spec.crates" },
   { import = "plugins.spec.dap-python" },
@@ -26,7 +25,8 @@ return {
   { import = "plugins.spec.hop" },
   { import = "plugins.spec.lsp-endhints" },
   { import = "plugins.spec.lsp-signature" },
-  { import = "plugins.spec.markview" },
+  --[[  { import = "plugins.spec.markview" }, ]]
+  { import = "plugins.spec.render-markdown" },
   { import = "plugins.spec.matchup" },
   { import = "plugins.spec.md-preview" },
   { import = "plugins.spec.multicursor" },
@@ -73,4 +73,6 @@ return {
   { import = "plugins.override.whichkey" },
   { import = "plugins.spec.smear-cursor" },
   { import = "plugins.spec.mini-animate" },
+  { import = "plugins.spec.copilot" },
+  { import = "plugins.spec.copilot-chat" },
 }
